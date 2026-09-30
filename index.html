@@ -1,0 +1,896 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>$INUVISIBLE | You can't copy what you can't see</title>
+<meta name="description" content="Every dog in the trenches wants attention. INUVISIBLE forgot to render.">
+<meta name="theme-color" content="#0b0709">
+<link rel="icon" type="image/png" href="assets/icon-32.png">
+<link rel="apple-touch-icon" href="assets/icon-180.png">
+<meta property="og:title" content="$INUVISIBLE">
+<meta property="og:description" content="You can't copy what you can't see.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@300..700&display=swap">
+<style>
+:root{
+  --night:#0b0709;
+  --wall:#2a1016;
+  --gold:#c9a45c;
+  --gold-2:#e8cf93;
+  --candle:#f3b865;
+  --ecto:#cfeaff;
+  --ecto-2:#9fd0ff;
+  --cream:#f3ece0;
+  --cream-2:rgba(243,236,224,.78);
+  --cream-3:rgba(243,236,224,.52);
+  --line:rgba(201,164,92,.28);
+  --pad:clamp(20px,5vw,80px);
+  --serif:"Cormorant Garamond","Iowan Old Style","Palatino Linotype",Georgia,serif;
+  --sans:"Jost","Futura","Century Gothic",system-ui,sans-serif;
+  --ease:cubic-bezier(.2,.7,.1,1);
+  --glow:0 0 6px rgba(207,234,255,.9),0 0 22px rgba(159,208,255,.55),0 0 60px rgba(159,208,255,.35);
+  --glow-warm:0 0 8px rgba(243,184,101,.7),0 0 30px rgba(243,184,101,.35);
+  color-scheme:dark;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--night:#0b0709;--cream:#f3ece0}}
+:root[data-theme="dark"]{--night:#0b0709;--cream:#f3ece0}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
+html,body{margin:0;overflow-x:clip}
+body{background:var(--night);color:var(--cream);font-family:var(--sans);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+body.is-locked{overflow:hidden}
+img{display:block;max-width:100%}
+a{color:inherit}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--ecto);outline-offset:3px}
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+
+/* ---------- The 3D mansion behind everything ---------- */
+#stage{position:fixed;inset:0;z-index:0;width:100%;height:100%;display:block;background:radial-gradient(80% 70% at 50% 50%,#2a1016,#0b0709)}
+.film{position:fixed;inset:0;z-index:70;pointer-events:none}
+.film__grain{position:absolute;inset:-50%;opacity:.09;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");animation:grain .9s steps(5) infinite}
+@keyframes grain{0%{transform:translate(0,0)}20%{transform:translate(-3%,2%)}40%{transform:translate(2%,-4%)}60%{transform:translate(-5%,-1%)}80%{transform:translate(4%,3%)}100%{transform:translate(0,0)}}
+.film__vig{position:absolute;inset:0;background:radial-gradient(120% 95% at 50% 50%,transparent 50%,rgba(5,2,4,.72))}
+.plaques{position:fixed;inset:0;z-index:5;pointer-events:none;overflow:hidden}
+.plaque{position:absolute;left:0;top:0;width:max-content;max-width:min(300px,40vw);padding:12px 16px 13px;text-align:center;background:linear-gradient(180deg,rgba(40,22,10,.82),rgba(20,10,6,.86));border:1px solid rgba(201,164,92,.55);box-shadow:0 10px 40px rgba(0,0,0,.6),inset 0 0 0 3px rgba(20,10,6,.9),inset 0 0 0 4px rgba(201,164,92,.35);opacity:0;will-change:transform,opacity}
+.plaque__n{font-family:var(--sans);font-size:10.5px;font-weight:500;letter-spacing:.3em;color:var(--gold)}
+.plaque__t{margin:4px 0 0;font-family:var(--serif);font-size:22px;font-weight:500;line-height:1.05;color:var(--gold-2)}
+.plaque__c{margin:6px 0 0;font-family:var(--serif);font-style:italic;font-size:16px;line-height:1.3;color:var(--cream-2)}
+main{position:relative;z-index:10}
+
+/* ---------- Header ---------- */
+.bar{position:fixed;left:0;right:0;top:0;z-index:50;padding-top:env(safe-area-inset-top,0px);background:linear-gradient(180deg,rgba(11,7,9,.7),rgba(11,7,9,0))}
+.bar__in{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px var(--pad)}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.brand img{width:38px;height:38px;border-radius:50%;box-shadow:0 0 0 1px rgba(207,234,255,.5),0 0 18px rgba(159,208,255,.5)}
+.brand span{font-family:var(--serif);font-size:22px;font-weight:500;letter-spacing:.08em;text-shadow:var(--glow)}
+.bar__acts{display:flex;gap:8px}
+.chip{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 16px;border:1px solid rgba(207,234,255,.25);border-radius:999px;background:rgba(11,7,9,.45);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);font-size:14px;font-weight:500;letter-spacing:.04em;text-decoration:none;cursor:pointer;transition:border-color .3s,box-shadow .3s}
+.chip:hover{border-color:var(--ecto);box-shadow:0 0 24px rgba(159,208,255,.35)}
+.chip[hidden]{display:none}
+.xmark{width:15px;height:15px;flex:none}
+
+/* ---------- CA with a living ectoplasm border ---------- */
+.ca{position:relative;display:flex;align-items:center;gap:12px;height:58px;padding:0 6px 0 20px;border-radius:999px;overflow:hidden;isolation:isolate;min-width:0;max-width:100%}
+.ca::before{content:"";position:absolute;inset:-160% -20%;z-index:-2;background:conic-gradient(from 0deg,transparent 0 58%,rgba(159,208,255,.1) 66%,rgba(207,234,255,.95) 76%,rgba(243,184,101,.8) 82%,transparent 90%);animation:orbit 4.5s linear infinite}
+.ca::after{content:"";position:absolute;inset:1.5px;z-index:-1;border-radius:inherit;background:linear-gradient(180deg,rgba(20,13,18,.94),rgba(11,7,9,.96));box-shadow:inset 0 0 30px rgba(159,208,255,.08)}
+@keyframes orbit{to{transform:rotate(360deg)}}
+.ca__tag{font-family:var(--serif);font-size:18px;font-weight:600;letter-spacing:.04em;color:var(--ecto);text-shadow:var(--glow);flex:none}
+.ca__val{font-size:14px;letter-spacing:.02em;color:var(--cream-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;flex:1}
+.ca__copy{position:relative;flex:none;height:46px;padding:0 20px;border:0;border-radius:999px;background:rgba(207,234,255,.1);font-weight:600;font-size:14px;letter-spacing:.06em;cursor:pointer;transition:background .3s}
+.ca__copy:hover{background:rgba(207,234,255,.2)}
+.ca__copy:disabled{opacity:.5;cursor:default}
+.ca.is-empty .ca__val{color:var(--cream-3);font-style:italic}
+
+/* X button that phases out of sight when you reach for it */
+.xbtn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:10px;height:58px;padding:0 30px;border-radius:999px;text-decoration:none;font-weight:600;font-size:15px;letter-spacing:.08em;text-transform:uppercase;color:#0b0709;background:linear-gradient(180deg,#f6fbff,#cfe6ff);box-shadow:0 0 0 1px rgba(255,255,255,.6),0 0 40px rgba(159,208,255,.45),0 12px 40px -10px rgba(159,208,255,.6);transition:background .5s,color .5s,box-shadow .5s,letter-spacing .5s}
+.xbtn .xmark{color:currentColor}
+.xbtn::after{content:"";position:absolute;inset:-6px;border-radius:inherit;border:1px dashed rgba(207,234,255,0);transition:border-color .5s,inset .5s}
+.xbtn:hover{background:transparent;color:var(--ecto);letter-spacing:.2em;box-shadow:0 0 0 1px rgba(207,234,255,.25),0 0 60px rgba(159,208,255,.25);text-shadow:var(--glow)}
+.xbtn:hover::after{border-color:rgba(207,234,255,.45);inset:-10px}
+.btn-line{display:inline-flex;align-items:center;justify-content:center;height:58px;padding:0 28px;border-radius:999px;text-decoration:none;font-weight:600;font-size:15px;letter-spacing:.08em;text-transform:uppercase;border:1px solid rgba(201,164,92,.5);color:var(--gold-2);transition:box-shadow .4s,border-color .4s}
+.btn-line:hover{border-color:var(--gold-2);box-shadow:var(--glow-warm)}
+
+/* ---------- Intro ---------- */
+.gate{position:fixed;inset:0;z-index:90;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:calc(12svh + env(safe-area-inset-bottom,0px));cursor:pointer;-webkit-user-select:none;user-select:none;touch-action:manipulation}
+.gate.is-gone{pointer-events:none}
+.gate__black{position:fixed;inset:0;background:#000;z-index:-1}
+.gate__q{margin:0;font-family:var(--serif);font-style:italic;font-weight:400;font-size:clamp(30px,4.4vw,64px);line-height:1;text-align:center;text-shadow:var(--glow-warm);opacity:0}
+.gate__sub{margin:14px 0 0;font-size:12px;font-weight:500;letter-spacing:.34em;color:var(--cream-3);opacity:0}
+.knocks{margin-top:18px;display:flex;gap:12px;opacity:0}
+.knocks i{width:10px;height:10px;border-radius:50%;border:1px solid var(--gold);transition:background .3s,box-shadow .3s}
+.knocks i.on{background:var(--candle);box-shadow:var(--glow-warm)}
+.gate__skip{position:fixed;right:var(--pad);bottom:calc(22px + env(safe-area-inset-bottom,0px));background:none;border:0;padding:8px;font-size:12px;letter-spacing:.18em;color:var(--cream-3);cursor:pointer;text-decoration:underline;text-underline-offset:4px}
+.gate__skip:hover{color:var(--cream)}
+.gate__flash{position:fixed;inset:0;background:radial-gradient(60% 60% at 50% 50%,rgba(255,236,200,1),rgba(243,184,101,.6) 50%,rgba(0,0,0,0));opacity:0;pointer-events:none}
+.gate__load{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);font-size:12px;letter-spacing:.3em;color:var(--cream-3)}
+
+/* ---------- Hero ---------- */
+.hero{position:relative;height:100svh;min-height:620px;display:flex;flex-direction:column;justify-content:flex-end;padding:0 var(--pad) calc(9svh + env(safe-area-inset-bottom,0px))}
+.hero__tick{display:inline-flex;align-items:center;gap:12px;font-size:12px;font-weight:500;letter-spacing:.34em;color:var(--gold-2);text-shadow:var(--glow-warm)}
+.hero__tick::before{content:"";width:34px;height:1px;background:var(--gold)}
+.title{position:relative;margin:.12em 0 0 -.04em;font-family:var(--serif);font-weight:300;font-size:clamp(64px,11.5vw,210px);line-height:.86;letter-spacing:.02em;color:#f7fbff;text-shadow:var(--glow);white-space:nowrap}
+.title .ch{position:relative;display:inline-block;transition:color .25s,text-shadow .25s,opacity .25s,filter .25s}
+.title .ch.gone{color:transparent;-webkit-text-stroke:1px rgba(207,234,255,.55);text-shadow:none;filter:blur(.4px)}
+.title .ch.void{opacity:0}
+.title__ghost{position:absolute;left:0;top:0;pointer-events:none;color:transparent;-webkit-text-stroke:1px rgba(159,208,255,.35);text-shadow:none;animation:drift 7s ease-in-out infinite}
+.title__ghost--2{animation-duration:9s;animation-direction:reverse;-webkit-text-stroke-color:rgba(243,184,101,.25)}
+@keyframes drift{0%,100%{transform:translate(0,0);opacity:.0}30%{transform:translate(18px,-6px);opacity:.9}60%{transform:translate(-12px,5px);opacity:.4}}
+.hero__lede{margin:22px 0 0;max-width:30ch;font-family:var(--serif);font-size:clamp(24px,2.3vw,36px);line-height:1.12;font-weight:400}
+.hero__lede em{font-style:italic;color:var(--ecto);text-shadow:var(--glow)}
+.hero__acts{margin-top:30px;display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.hero__acts .ca{width:min(460px,100%)}
+.hero__cue{position:absolute;right:var(--pad);bottom:calc(9svh + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;align-items:center;gap:10px;font-size:11px;letter-spacing:.3em;color:var(--cream-3)}
+.hero__cue i{width:1px;height:54px;background:linear-gradient(var(--ecto),transparent);animation:cue 2s ease-in-out infinite;transform-origin:top}
+@keyframes cue{0%{transform:scaleY(0)}50%{transform:scaleY(1)}100%{transform:scaleY(1);opacity:0}}
+
+/* ---------- The hall: lore spoken in the dark ---------- */
+.hall{position:relative}
+.lore{position:fixed;left:0;right:0;top:calc(96px + 6svh + env(safe-area-inset-top,0px));z-index:6;pointer-events:none;display:grid;place-items:center;padding:0 var(--pad)}
+.lore p{grid-area:1/1;margin:0;max-width:22ch;text-align:center;font-family:var(--serif);font-weight:400;font-size:clamp(30px,3.6vw,58px);line-height:1.06;letter-spacing:.005em;color:#fff;text-shadow:0 2px 30px rgba(0,0,0,.8),var(--glow);opacity:0;transform:translateY(20px);filter:blur(10px);transition:opacity .9s var(--ease),transform .9s var(--ease),filter .9s var(--ease)}
+.lore p.on{opacity:1;transform:none;filter:blur(0)}
+.lore p em{font-style:italic;color:var(--ecto)}
+.hall__meter{position:fixed;right:var(--pad);top:50%;z-index:6;transform:translateY(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none;opacity:0;transition:opacity .6s}
+.hall__meter.on{opacity:1}
+.hall__meter span{font-size:10px;letter-spacing:.3em;color:var(--gold);writing-mode:vertical-rl}
+.hall__meter b{display:block;width:2px;height:160px;background:rgba(201,164,92,.25);position:relative}
+.hall__meter b i{position:absolute;left:-1px;top:0;width:4px;height:var(--p,0%);background:linear-gradient(var(--candle),var(--ecto));box-shadow:var(--glow)}
+
+/* ---------- The empty frame ---------- */
+.end{position:relative;height:150svh}
+.end__txt{position:sticky;top:0;height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:0 var(--pad) calc(12svh + env(safe-area-inset-bottom,0px));text-align:center}
+.end__q{margin:0;font-family:var(--serif);font-size:clamp(20px,1.9vw,28px);font-style:italic;color:var(--cream-2)}
+.end__a{margin:10px 0 0;font-family:var(--serif);font-weight:400;font-size:clamp(46px,6.2vw,108px);line-height:.95;color:#fff;text-shadow:var(--glow)}
+.end__hint{margin-top:18px;font-size:11px;letter-spacing:.3em;color:var(--cream-3)}
+
+/* ---------- Join ---------- */
+.join{position:relative;padding:18vh var(--pad) 0;background:linear-gradient(180deg,rgba(11,7,9,0),rgba(11,7,9,.88) 16%,rgba(11,7,9,.96))}
+.join__in{max-width:1150px;margin:0 auto;text-align:center}
+.join__title{margin:0;font-family:var(--serif);font-weight:300;font-size:clamp(44px,6vw,104px);line-height:.98;text-shadow:var(--glow)}
+.join__title em{font-style:italic}
+.join__copy{margin:26px auto 0;max-width:44ch;font-family:var(--serif);font-size:clamp(21px,1.8vw,27px);line-height:1.3;color:var(--cream-2)}
+.join__acts{margin:40px auto 0;display:flex;flex-wrap:wrap;justify-content:center;gap:12px;max-width:760px}
+.join__acts .ca{width:min(460px,100%)}
+.reel{margin-top:14vh;overflow:hidden;-webkit-mask:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);mask:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent)}
+.reel__track{display:flex;gap:18px;width:max-content;animation:reel 60s linear infinite}
+.reel:hover .reel__track{animation-play-state:paused}
+@keyframes reel{to{transform:translateX(-50%)}}
+.reel figure{margin:0;position:relative;height:clamp(160px,20vw,260px);padding:10px;background:linear-gradient(135deg,#6b5020,#c9a45c 30%,#6b5020 55%,#e8cf93 75%,#6b5020);box-shadow:0 20px 50px rgba(0,0,0,.6)}
+.reel img{height:100%;width:auto;filter:saturate(.9) contrast(1.05);transition:filter .5s}
+.reel figure:hover img{filter:saturate(1.1) contrast(1.05) brightness(1.08)}
+.reel__cap{margin:16px 0 0;font-size:11px;letter-spacing:.3em;color:var(--cream-3);text-align:center}
+.foot{max-width:1280px;margin:16vh auto 0;padding:26px 0 calc(28px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line);display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px 32px;font-size:14px;color:var(--cream-3)}
+.foot p{margin:0;max-width:62ch}
+.foot__links{display:flex;gap:18px}
+.foot a{color:var(--cream-2);text-underline-offset:4px}
+
+.puff{position:fixed;z-index:95;width:10px;height:10px;border-radius:50%;pointer-events:none;background:radial-gradient(closest-side,rgba(230,245,255,.95),rgba(159,208,255,0));transform:translate(-50%,-50%)}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));z-index:95;transform:translate(-50%,20px);padding:12px 20px;border-radius:999px;background:#f6fbff;color:#0b0709;font-weight:600;font-size:15px;box-shadow:0 0 40px rgba(159,208,255,.5);opacity:0;pointer-events:none;transition:opacity .3s,transform .4s var(--ease)}
+.toast.is-on{opacity:1;transform:translate(-50%,0)}
+
+@media (max-width:760px){
+  .brand span{display:none}
+  .chip--ca{display:none!important}
+  .hero{justify-content:flex-end}
+  .hero__cue{display:none}
+  .hero__acts,.hero__acts .ca,.hero__acts .xbtn{width:100%}
+  .plaque{max-width:62vw;padding:9px 12px}
+  .plaque__t{font-size:18px}
+  .plaque__c{font-size:14px}
+  .hall__meter{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  .film__grain,.ca::before,.title__ghost,.reel__track,.hero__cue i{animation:none}
+}
+</style>
+</head>
+<body class="is-locked">
+
+<canvas id="stage" aria-hidden="true"></canvas>
+<div class="plaques" id="plaques" aria-hidden="true"></div>
+<div class="film" aria-hidden="true"><div class="film__grain"></div><div class="film__vig"></div></div>
+
+<!-- Intro: knock three times -->
+<div class="gate" id="gate" role="dialog" aria-label="Intro. Knock on the door to enter.">
+  <div class="gate__black" id="gateBlack"></div>
+  <div class="gate__load" id="gateLoad">LIGHTING THE CANDLES</div>
+  <p class="gate__q" id="gateQ">Knock three times.</p>
+  <p class="gate__sub" id="gateSub">CLICK THE DOORS</p>
+  <div class="knocks" id="knocks"><i></i><i></i><i></i></div>
+  <div class="gate__flash" id="gateFlash"></div>
+  <button class="gate__skip" id="skip">Skip intro</button>
+</div>
+
+<header class="bar" id="bar">
+  <div class="bar__in">
+    <a class="brand" href="#top" aria-label="INUVISIBLE, back to top"><img src="assets/icon-180.png" alt=""><span>INUVISIBLE</span></a>
+    <div class="bar__acts">
+      <button class="chip chip--ca" id="barCa" hidden>Copy CA</button>
+      <a class="chip" data-x target="_blank" rel="noopener"><svg class="xmark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>Follow</a>
+    </div>
+  </div>
+</header>
+
+<div class="lore" id="lore" aria-live="polite">
+  <p>The trenches learned to <em>copy everything.</em></p>
+  <p>Same dogs. Different tickers. Endless clones.</p>
+  <p>So one Inu found a different way to survive: <em>he became invisible.</em></p>
+  <p>Now animals are flying, and he fits right in. Except <em>nobody can see him coming.</em></p>
+  <p>No wings. No explanation. Just an Inu floating through the chaos <em>like he owns the place.</em></p>
+  <p>Try to steal his look and you're posting <em>empty space.</em></p>
+  <p>Try to follow him and you're <em>chasing nothing.</em></p>
+  <p>The vamps brought their copy-paste tools. He brought <em>absolutely nothing to copy.</em></p>
+</div>
+<div class="hall__meter" id="hallMeter" aria-hidden="true"><span>THE HALL</span><b><i></i></b></div>
+
+<main id="top">
+  <section class="hero" id="hero" aria-label="INUVISIBLE">
+    <div class="hero__tick" data-ticker>$INUVISIBLE</div>
+    <h1 class="title" id="title" aria-label="INUVISIBLE">INUVISIBLE</h1>
+    <p class="hero__lede">Every dog in the trenches wants attention. <em>INUVISIBLE forgot to render.</em></p>
+    <div class="hero__acts">
+      <div class="ca" data-ca>
+        <span class="ca__tag">CA</span>
+        <span class="ca__val" data-ca-val></span>
+        <button class="ca__copy" data-ca-copy>Copy</button>
+      </div>
+      <a class="xbtn" data-x target="_blank" rel="noopener"><svg class="xmark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>Follow on X</a>
+    </div>
+    <div class="hero__cue" aria-hidden="true"><i></i>ENTER THE HALL</div>
+  </section>
+
+  <section class="hall" id="hall" aria-label="The hall of portraits"></section>
+
+  <section class="end" id="end" aria-label="The empty frame">
+    <div class="end__txt">
+      <p class="end__q">His whole defense against getting vamped?</p>
+      <p class="end__a">You can't copy what you can't see.</p>
+      <div class="end__hint" id="endHint">MOVE CLOSER TO THE FRAME</div>
+    </div>
+  </section>
+
+  <section class="join" id="join" aria-label="Join">
+    <div class="join__in">
+      <h2 class="join__title">Every Inu wants to be seen. <em>This one disappears</em> and becomes the whole conversation.</h2>
+      <p class="join__copy">That's the joke, that's the lore, and that's what makes him INUVISIBLE. Still an Inu. Just harder to find.</p>
+      <div class="join__acts">
+        <div class="ca" data-ca>
+          <span class="ca__tag">CA</span>
+          <span class="ca__val" data-ca-val></span>
+          <button class="ca__copy" data-ca-copy>Copy</button>
+        </div>
+        <a class="xbtn" data-x target="_blank" rel="noopener"><svg class="xmark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>Follow on X</a>
+      </div>
+    </div>
+    <div class="reel" aria-label="The collection"><div class="reel__track" id="reel"></div></div>
+    <p class="reel__cap">THE COLLECTION. TEN SIGHTINGS. ZERO COPIES.</p>
+    <footer class="foot">
+      <p>© 2026 $INUVISIBLE. A meme coin with no intrinsic value or expectation of financial return. Nothing here is financial advice.</p>
+      <div class="foot__links"><a data-x target="_blank" rel="noopener">X</a><a href="#top" id="toTop">Back to the door</a></div>
+    </footer>
+  </section>
+</main>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.149.0/build/three.min.js"></script>
+<script>
+/* =========================================================
+   CONFIG — schimbă aici:
+   ca:     adresa contractului (lasă "" până la lansare)
+   x:      linkul contului tău de X
+   ticker: tickerul
+   ========================================================= */
+const CONFIG = {
+  ca: "",
+  x: "https://x.com/",
+  ticker: "$INUVISIBLE"
+};
+
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const lerp = (a, b, t) => a + (b - a) * t;
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const coarse = matchMedia('(pointer: coarse)').matches;
+const hasGSAP = !!(window.gsap && window.ScrollTrigger);
+if (hasGSAP) gsap.registerPlugin(ScrollTrigger);
+
+/* The ten portraits hanging in the hall */
+const PORTRAITS = [
+  { src: 'assets/p01.webp', t: 'The Penthouse', c: 'He was on the couch the whole time.', alt: 'The ghost Inu sitting on a black sofa in a foggy penthouse at dawn' },
+  { src: 'assets/p02.webp', t: 'The Edge', c: 'Same dogs, different tickers, endless clones.', alt: 'The ghost Inu on the edge of a trench above the clouds while orange explosions bloom' },
+  { src: 'assets/p03.webp', t: 'The Candles', c: 'Floating through the chaos like he owns the place.', alt: 'The ghost Inu sitting on top of giant glass candlestick charts, cash and shards flying' },
+  { src: 'assets/p04.webp', t: 'The Throne', c: 'Every Inu wants to be seen.', alt: 'The ghost Inu on a gothic throne with hooded followers kneeling below' },
+  { src: 'assets/p05.webp', t: 'The Vault', c: 'Nobody saw him come in.', alt: 'The ghost Inu floating out of an open bank vault with a black handbag' },
+  { src: 'assets/p06.webp', t: 'The Desk', c: 'Trading in the dark. Invisible on the tape.', alt: 'The ghost Inu at a desk with glowing green charts and stacks of cash on a rainy night' },
+  { src: 'assets/p07.webp', t: 'The Trenches', c: 'Still an Inu. Just harder to find.', alt: 'The ghost Inu in a muddy sheet with a field radio in a rainy trench' },
+  { src: 'assets/p08.webp', t: 'The Count', c: 'You can\'t copy what you can\'t see.', alt: 'The ghost Inu counting stacks of cash beside a money counter' },
+  { src: 'assets/p09.webp', t: 'The Auction', c: 'They bid on an empty case.', alt: 'The ghost Inu on a stage beside an empty glass case while gloved hands wave paddles and cash' },
+  { src: 'assets/p10.webp', t: 'The Laundromat', c: 'Chasing nothing.', alt: 'The ghost Inu floating down a green-lit laundromat where the machines spin cash' }
+];
+
+/* ---------- Config wiring ---------- */
+$$('[data-x]').forEach(a => a.href = CONFIG.x);
+$$('[data-ticker]').forEach(e => e.textContent = CONFIG.ticker);
+$$('[data-ca]').forEach(box => {
+  const v = $('[data-ca-val]', box), b = $('[data-ca-copy]', box);
+  if (CONFIG.ca){ v.textContent = CONFIG.ca; v.title = CONFIG.ca; b.addEventListener('click', copyCA); }
+  else { box.classList.add('is-empty'); v.textContent = 'Appears at launch'; b.disabled = true; }
+});
+if (CONFIG.ca){ const bc = $('#barCa'); bc.hidden = false; bc.addEventListener('click', copyCA); }
+const toast = $('#toast'); let toastT;
+function say(msg){ toast.textContent = msg; toast.classList.add('is-on'); clearTimeout(toastT); toastT = setTimeout(() => toast.classList.remove('is-on'), 2200); }
+async function copyCA(e){
+  let ok = false;
+  try { await navigator.clipboard.writeText(CONFIG.ca); ok = true; } catch (_) {
+    const t = document.createElement('textarea'); t.value = CONFIG.ca; t.style.position = 'fixed'; t.style.opacity = '0';
+    document.body.appendChild(t); t.select(); try { ok = document.execCommand('copy'); } catch (_) {} t.remove();
+  }
+  say(ok ? 'Copied. Now you see it.' : 'Copy failed. Select the address and copy it manually.');
+  if (e) puff(e.clientX, e.clientY);
+}
+function puff(x, y){
+  if (!hasGSAP || reduce) return;
+  for (let i = 0; i < 14; i++){
+    const p = document.createElement('div'); p.className = 'puff'; p.style.left = x + 'px'; p.style.top = y + 'px'; document.body.appendChild(p);
+    const a = Math.random() * 6.283, d = 30 + Math.random() * 70;
+    gsap.fromTo(p, { scale: 1, opacity: 1 }, { x: Math.cos(a) * d, y: Math.sin(a) * d - 30, scale: 4 + Math.random() * 4, opacity: 0, duration: .9 + Math.random() * .5, ease: 'power2.out', onComplete: () => p.remove() });
+  }
+}
+
+/* ---------- Title that keeps forgetting to render ---------- */
+const title = $('#title');
+(function(){
+  const txt = title.textContent;
+  title.innerHTML = [...txt].map(c => `<span class="ch" aria-hidden="true">${c}</span>`).join('') +
+    `<span class="title__ghost" aria-hidden="true">${txt}</span><span class="title__ghost title__ghost--2" aria-hidden="true">${txt}</span>`;
+})();
+const chars = $$('.ch', title);
+function glitchLoop(){
+  if (!reduce){
+    const n = 1 + Math.floor(Math.random() * 2);
+    for (let k = 0; k < n; k++){
+      const c = chars[Math.floor(Math.random() * chars.length)];
+      c.classList.add('gone');
+      setTimeout(() => c.classList.add('void'), 180 + Math.random() * 200);
+      setTimeout(() => { c.classList.remove('void'); }, 700 + Math.random() * 900);
+      setTimeout(() => { c.classList.remove('gone'); }, 1100 + Math.random() * 900);
+    }
+  }
+  setTimeout(glitchLoop, 1400 + Math.random() * 1800);
+}
+
+/* ---------- Reel of all ten portraits ---------- */
+const reel = $('#reel');
+reel.innerHTML = [...PORTRAITS, ...PORTRAITS].map((p, i) => `<figure${i >= PORTRAITS.length ? ' aria-hidden="true"' : ''}><img src="${p.src}" alt="${i >= PORTRAITS.length ? '' : p.alt}" loading="lazy"></figure>`).join('');
+
+/* ---------- Plaques under each painting (projected from 3D) ---------- */
+const plaquesEl = $('#plaques');
+const plaques = PORTRAITS.map((p, i) => {
+  const d = document.createElement('div'); d.className = 'plaque';
+  d.innerHTML = `<div class="plaque__n">NO. ${String(i + 1).padStart(2, '0')}</div><p class="plaque__t">${p.t}</p><p class="plaque__c">${p.c}</p>`;
+  plaquesEl.appendChild(d); return d;
+});
+
+/* =========================================================
+   THE MANSION (three.js)
+   ========================================================= */
+const W = { ready: false };
+const HALL = { width: 6, height: 4.4, start: 2, spacing: 6, first: -6, endWall: -68, camEnd: -63.5 };
+function cvTex(w, h, draw, repeat){
+  const c = document.createElement('canvas'); c.width = w; c.height = h; draw(c.getContext('2d'), w, h);
+  const t = new THREE.CanvasTexture(c); t.encoding = THREE.sRGBEncoding; t.anisotropy = 4;
+  if (repeat){ t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(repeat[0], repeat[1]); }
+  return t;
+}
+function rand(s){ return () => (s = (s * 16807) % 2147483647) / 2147483647; }
+
+function buildWorld(){
+  if (!window.THREE) return false;
+  const canvas = $('#stage');
+  let renderer;
+  try { renderer = new THREE.WebGLRenderer({ canvas, antialias: !coarse, powerPreference: 'high-performance' }); } catch (e) { return false; }
+  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, coarse ? 1.25 : 1.6));
+  renderer.setSize(innerWidth, innerHeight, false);
+  renderer.outputEncoding = THREE.sRGBEncoding;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.15;
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color('#07040a');
+  scene.fog = new THREE.FogExp2('#0d070c', .085);
+  const camera = new THREE.PerspectiveCamera(innerWidth < 760 ? 70 : 58, innerWidth / innerHeight, .05, 120);
+  camera.position.set(0, 1.6, 7.5);
+  scene.add(new THREE.HemisphereLight('#5b4a6e', '#1a0d0a', .55));
+  const moon = new THREE.DirectionalLight('#8fb0ff', .25); moon.position.set(2, 6, 4); scene.add(moon);
+
+  const R = rand(7);
+  // --- materials from canvas textures
+  const damask = cvTex(512, 512, (g, w, h) => {
+    g.fillStyle = '#3a141d'; g.fillRect(0, 0, w, h);
+    g.strokeStyle = 'rgba(214,160,110,.14)'; g.fillStyle = 'rgba(214,160,110,.08)'; g.lineWidth = 3;
+    for (const [cx, cy] of [[128, 128], [384, 384], [384, -128], [-128, 384], [128, 640], [640, 128]]){
+      g.save(); g.translate(cx, cy);
+      for (let k = 0; k < 4; k++){ g.rotate(Math.PI / 2); g.beginPath(); g.moveTo(0, 0); g.bezierCurveTo(40, -30, 90, -10, 100, 40); g.bezierCurveTo(70, 30, 40, 20, 0, 0); g.fill(); g.stroke(); }
+      g.beginPath(); g.arc(0, 0, 14, 0, 6.283); g.stroke(); g.restore();
+    }
+    for (let i = 0; i < 4000; i++){ g.fillStyle = `rgba(0,0,0,${R() * .08})`; g.fillRect(R() * w, R() * h, 2, 2); }
+  }, [6, 1.4]);
+  const wood = cvTex(512, 512, (g, w, h) => {
+    const gr = g.createLinearGradient(0, 0, w, 0); gr.addColorStop(0, '#1f110b'); gr.addColorStop(.5, '#2c180e'); gr.addColorStop(1, '#1b0f09');
+    g.fillStyle = gr; g.fillRect(0, 0, w, h);
+    for (let i = 0; i < 90; i++){ g.strokeStyle = `rgba(0,0,0,${.15 + R() * .2})`; g.lineWidth = 1 + R() * 2; g.beginPath(); const x = R() * w; g.moveTo(x, 0); g.bezierCurveTo(x + 20, h * .3, x - 20, h * .7, x + 10, h); g.stroke(); }
+  }, [1, 1]);
+  const marble = cvTex(1024, 1024, (g, w, h) => {
+    g.fillStyle = '#16101a'; g.fillRect(0, 0, w, h);
+    for (let i = 0; i < 26; i++){
+      g.strokeStyle = `rgba(${150 + R() * 60},${140 + R() * 50},${160 + R() * 60},${.05 + R() * .12})`; g.lineWidth = .5 + R() * 2.2;
+      g.beginPath(); let x = R() * w, y = R() * h; g.moveTo(x, y);
+      for (let k = 0; k < 8; k++){ x += (R() - .4) * 200; y += (R() - .5) * 200; g.lineTo(x, y); } g.stroke();
+    }
+    g.strokeStyle = 'rgba(0,0,0,.6)'; g.lineWidth = 3; g.strokeRect(0, 0, w, h);
+  }, [3, 36]);
+  const runner = cvTex(256, 512, (g, w, h) => {
+    g.fillStyle = '#4a0f16'; g.fillRect(0, 0, w, h);
+    g.fillStyle = '#b08a4a'; g.fillRect(14, 0, 6, h); g.fillRect(w - 20, 0, 6, h);
+    g.strokeStyle = 'rgba(176,138,74,.35)'; g.lineWidth = 2;
+    for (let y = 0; y < h; y += 64){ g.beginPath(); g.moveTo(w / 2, y + 8); g.lineTo(w - 44, y + 32); g.lineTo(w / 2, y + 56); g.lineTo(44, y + 32); g.closePath(); g.stroke(); }
+    for (let i = 0; i < 3000; i++){ g.fillStyle = `rgba(0,0,0,${R() * .15})`; g.fillRect(R() * w, R() * h, 1, 2); }
+  }, [1, 30]);
+
+  const L = HALL.start - HALL.endWall, midZ = (HALL.start + HALL.endWall) / 2;
+  const hw = HALL.width / 2, H = HALL.height;
+  const floor = new THREE.Mesh(new THREE.PlaneGeometry(HALL.width, L), new THREE.MeshStandardMaterial({ map: marble, roughness: .22, metalness: .15 }));
+  floor.rotation.x = -Math.PI / 2; floor.position.set(0, 0, midZ); scene.add(floor);
+  const rug = new THREE.Mesh(new THREE.PlaneGeometry(2.2, L - 4), new THREE.MeshStandardMaterial({ map: runner, roughness: .95 }));
+  rug.rotation.x = -Math.PI / 2; rug.position.set(0, .005, midZ - 2); scene.add(rug);
+  const ceil = new THREE.Mesh(new THREE.PlaneGeometry(HALL.width, L), new THREE.MeshStandardMaterial({ color: '#120a0d', roughness: 1 }));
+  ceil.rotation.x = Math.PI / 2; ceil.position.set(0, H, midZ); scene.add(ceil);
+  const wallMat = new THREE.MeshStandardMaterial({ map: damask, roughness: .9 });
+  [-1, 1].forEach(s => {
+    const wall = new THREE.Mesh(new THREE.PlaneGeometry(L, H), wallMat);
+    wall.rotation.y = -s * Math.PI / 2; wall.position.set(s * hw, H / 2, midZ); scene.add(wall);
+    const wain = new THREE.Mesh(new THREE.BoxGeometry(.08, 1, L), new THREE.MeshStandardMaterial({ map: wood, roughness: .6 }));
+    wain.position.set(s * (hw - .04), .5, midZ); scene.add(wain);
+    const rail = new THREE.Mesh(new THREE.BoxGeometry(.12, .06, L), new THREE.MeshStandardMaterial({ color: '#8a6a34', metalness: .7, roughness: .35 }));
+    rail.position.set(s * (hw - .06), 1.02, midZ); scene.add(rail);
+    const crown = new THREE.Mesh(new THREE.BoxGeometry(.2, .16, L), new THREE.MeshStandardMaterial({ color: '#2a1810', roughness: .7 }));
+    crown.position.set(s * (hw - .1), H - .08, midZ); scene.add(crown);
+  });
+  // ceiling beams for rhythm
+  const beamMat = new THREE.MeshStandardMaterial({ map: wood, roughness: .7 });
+  for (let z = HALL.start - 1; z > HALL.endWall; z -= 3){
+    const b = new THREE.Mesh(new THREE.BoxGeometry(HALL.width, .22, .3), beamMat); b.position.set(0, H - .11, z); scene.add(b);
+  }
+  const endWall = new THREE.Mesh(new THREE.PlaneGeometry(HALL.width, H), wallMat);
+  endWall.position.set(0, H / 2, HALL.endWall); scene.add(endWall);
+
+  // --- gold frame builder
+  const gold = new THREE.MeshStandardMaterial({ color: '#b38a45', metalness: .85, roughness: .32, emissive: '#2a1a05', emissiveIntensity: .4 });
+  function frame(w, h, b){
+    const g = new THREE.Group();
+    const parts = [[w + b * 2, b, 0, h / 2 + b / 2], [w + b * 2, b, 0, -h / 2 - b / 2], [b, h, -w / 2 - b / 2, 0], [b, h, w / 2 + b / 2, 0]];
+    parts.forEach(([pw, ph, x, y]) => { const m = new THREE.Mesh(new THREE.BoxGeometry(pw, ph, .1), gold); m.position.set(x, y, 0); g.add(m); });
+    const inner = new THREE.Mesh(new THREE.BoxGeometry(w + .06, h + .06, .02), new THREE.MeshStandardMaterial({ color: '#1a120a', roughness: .9 })); inner.position.z = -.03; g.add(inner);
+    return g;
+  }
+
+  // --- the ten paintings
+  const loader = new THREE.TextureLoader();
+  const paintings = [];
+  PORTRAITS.forEach((p, i) => {
+    const s = i % 2 ? 1 : -1;
+    const z = HALL.first - i * HALL.spacing;
+    const group = new THREE.Group();
+    const mat = new THREE.MeshBasicMaterial({ color: '#000' });
+    const plane = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), mat);
+    group.add(plane);
+    group.position.set(s * (hw - .09), 2.05, z);
+    group.rotation.y = -s * Math.PI / 2;
+    scene.add(group);
+    const rec = { group, plane, mat, z, side: s, w: 1, h: 1, lit: 0 };
+    loader.load(p.src, tex => {
+      tex.encoding = THREE.sRGBEncoding; tex.anisotropy = 4;
+      const ar = tex.image.width / tex.image.height;
+      let h = 1.9, w = h * ar; if (w > 4.2){ w = 4.2; h = w / ar; }
+      plane.scale.set(w, h, 1); mat.map = tex; mat.needsUpdate = true;
+      rec.w = w; rec.h = h;
+      const f = frame(w, h, .14); f.position.z = -.01; group.add(f); plane.position.z = .02;
+    });
+    paintings.push(rec);
+  });
+
+  // --- the empty frame at the end of the hall
+  const endGroup = new THREE.Group();
+  const ghostTex = loader.load('assets/main.webp', t => { t.encoding = THREE.sRGBEncoding; });
+  const endMat = new THREE.MeshBasicMaterial({ map: ghostTex, transparent: true, opacity: 0, color: '#dfe8ff' });
+  const endPlane = new THREE.Mesh(new THREE.PlaneGeometry(1.9, 1.9), endMat); endPlane.position.z = .03; endGroup.add(endPlane);
+  const glass = new THREE.Mesh(new THREE.PlaneGeometry(1.9, 1.9), new THREE.MeshStandardMaterial({ color: '#0e0a12', roughness: .15, metalness: .6 })); endGroup.add(glass);
+  const ef = frame(1.9, 1.9, .2); ef.position.z = .01; endGroup.add(ef);
+  endGroup.position.set(0, 2.05, HALL.endWall + .06); scene.add(endGroup);
+
+  // --- sconces with candle flames
+  const flameTex = cvTex(64, 128, (g, w, h) => {
+    const gr = g.createRadialGradient(w / 2, h * .66, 2, w / 2, h * .6, h * .55);
+    gr.addColorStop(0, 'rgba(255,250,230,1)'); gr.addColorStop(.25, 'rgba(255,200,110,.95)'); gr.addColorStop(.6, 'rgba(255,120,40,.35)'); gr.addColorStop(1, 'rgba(255,80,20,0)');
+    g.fillStyle = gr; g.beginPath(); g.ellipse(w / 2, h * .62, w * .32, h * .42, 0, 0, 6.283); g.fill();
+  });
+  const glowTex = cvTex(128, 128, (g, w, h) => {
+    const gr = g.createRadialGradient(w / 2, h / 2, 0, w / 2, h / 2, w / 2); gr.addColorStop(0, 'rgba(255,190,110,.55)'); gr.addColorStop(1, 'rgba(255,150,60,0)');
+    g.fillStyle = gr; g.fillRect(0, 0, w, h);
+  });
+  const blueGlow = cvTex(128, 128, (g, w, h) => {
+    const gr = g.createRadialGradient(w / 2, h / 2, 0, w / 2, h / 2, w / 2); gr.addColorStop(0, 'rgba(190,225,255,.5)'); gr.addColorStop(1, 'rgba(160,210,255,0)');
+    g.fillStyle = gr; g.fillRect(0, 0, w, h);
+  });
+  const brass = new THREE.MeshStandardMaterial({ color: '#8f6c32', metalness: .9, roughness: .3 });
+  const waxMat = new THREE.MeshStandardMaterial({ color: '#efe4cc', roughness: .8, emissive: '#3a2410', emissiveIntensity: .4 });
+  const flames = [];
+  function sconce(x, z, facing){
+    const g = new THREE.Group();
+    const plate = new THREE.Mesh(new THREE.CylinderGeometry(.09, .09, .03, 20), brass); plate.rotation.z = Math.PI / 2; g.add(plate);
+    const arm = new THREE.Mesh(new THREE.CylinderGeometry(.015, .015, .28, 8), brass); arm.rotation.z = Math.PI / 2; arm.position.x = .14 * facing; g.add(arm);
+    const cup = new THREE.Mesh(new THREE.CylinderGeometry(.06, .035, .05, 16), brass); cup.position.set(.28 * facing, .02, 0); g.add(cup);
+    const wax = new THREE.Mesh(new THREE.CylinderGeometry(.028, .03, .2, 12), waxMat); wax.position.set(.28 * facing, .14, 0); g.add(wax);
+    const fl = new THREE.Sprite(new THREE.SpriteMaterial({ map: flameTex, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }));
+    fl.scale.set(.08, .16, 1); fl.position.set(.28 * facing, .3, 0); g.add(fl);
+    const gl = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }));
+    gl.scale.set(.9, .9, 1); gl.position.copy(fl.position); g.add(gl);
+    g.position.set(x, 2.2, z); scene.add(g);
+    const wp = new THREE.Vector3(); fl.getWorldPosition(wp);
+    flames.push({ fl, gl, pos: wp, seed: Math.random() * 100 });
+  }
+  for (let z = HALL.first + HALL.spacing / 2; z > HALL.endWall + 2; z -= HALL.spacing){ sconce(-(hw - .02), z, 1); sconce(hw - .02, z, -1); }
+  sconce(-.95, HALL.endWall + .05, 0); sconce(.95, HALL.endWall + .05, 0);
+
+  // recycled candle lights: always the nearest flames ahead of the camera
+  const candleLights = Array.from({ length: coarse ? 3 : 4 }, () => { const l = new THREE.PointLight('#ffb366', 1.6, 8.5, 2); scene.add(l); return l; });
+  const mouseLight = new THREE.PointLight('#a8ceff', .9, 5, 2); scene.add(mouseLight);
+
+  // --- the entrance: wall, double doors, light leaking through
+  const ent = new THREE.Group();
+  const outer = new THREE.MeshStandardMaterial({ map: damask, roughness: .9 });
+  const dw = 1.55, dh = 3.5;
+  [[-(dw + 4) , 8, dh], [dw + 4, 8, dh]].forEach(([x, w]) => { const m = new THREE.Mesh(new THREE.BoxGeometry(w, H, .3), outer); m.position.set(x, H / 2, HALL.start); ent.add(m); });
+  const lintel = new THREE.Mesh(new THREE.BoxGeometry(dw * 2 + .4, H - dh, .3), outer); lintel.position.set(0, dh + (H - dh) / 2, HALL.start); ent.add(lintel);
+  const trim = new THREE.MeshStandardMaterial({ color: '#8a6a34', metalness: .8, roughness: .35 });
+  [[-dw - .1, dh / 2, .2, dh], [dw + .1, dh / 2, .2, dh], [0, dh + .1, dw * 2 + .4, .2]].forEach(([x, y, w, h]) => { const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, .36), trim); m.position.set(x, y, HALL.start); ent.add(m); });
+  const doorTex = cvTex(256, 576, (g, w, h) => {
+    const gr = g.createLinearGradient(0, 0, w, 0); gr.addColorStop(0, '#24130b'); gr.addColorStop(.5, '#331c10'); gr.addColorStop(1, '#22120a');
+    g.fillStyle = gr; g.fillRect(0, 0, w, h);
+    const panel = (x, y, pw, ph) => { g.strokeStyle = 'rgba(0,0,0,.55)'; g.lineWidth = 8; g.strokeRect(x, y, pw, ph); g.strokeStyle = 'rgba(200,150,90,.18)'; g.lineWidth = 2; g.strokeRect(x + 6, y + 6, pw - 12, ph - 12); };
+    panel(26, 28, w - 52, 220); panel(26, 290, w - 52, 260);
+    for (let i = 0; i < 60; i++){ g.strokeStyle = `rgba(0,0,0,${.1 + Math.random() * .15})`; g.beginPath(); const x = Math.random() * w; g.moveTo(x, 0); g.lineTo(x + (Math.random() - .5) * 10, h); g.stroke(); }
+  });
+  const doorMat = new THREE.MeshStandardMaterial({ map: doorTex, roughness: .6 });
+  const doors = [-1, 1].map(s => {
+    const pivot = new THREE.Group(); pivot.position.set(s * dw, 0, HALL.start + .02);
+    const d = new THREE.Mesh(new THREE.BoxGeometry(dw - .01, dh, .12), doorMat); d.position.set(-s * dw / 2, dh / 2, 0); pivot.add(d);
+    const ring = new THREE.Mesh(new THREE.TorusGeometry(.09, .018, 10, 24), trim); ring.position.set(-s * (dw - .28), 1.45, .08); pivot.add(ring);
+    ent.add(pivot); return pivot;
+  });
+  const leak = new THREE.Mesh(new THREE.PlaneGeometry(.05, dh), new THREE.MeshBasicMaterial({ color: '#ffcf8a' })); leak.position.set(0, dh / 2, HALL.start - .05); ent.add(leak);
+  const leakGlow = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, opacity: .7 }));
+  leakGlow.scale.set(1.4, 4.2, 1); leakGlow.position.set(0, dh / 2, HALL.start + .2); ent.add(leakGlow);
+  scene.add(ent);
+  sconce(-(dw + .9), HALL.start + .2, 0); sconce(dw + .9, HALL.start + .2, 0);
+  const outsideLights = [-1, 1].map(s => { const l = new THREE.PointLight('#ffb366', 0, 6, 2); l.position.set(s * (dw + .9), 2.5, HALL.start + .6); scene.add(l); return l; });
+
+  // --- dust in the candlelight
+  const dustN = coarse ? 500 : 1100;
+  const dg = new THREE.BufferGeometry(); const dp = new Float32Array(dustN * 3);
+  for (let i = 0; i < dustN; i++){ dp[i * 3] = (Math.random() - .5) * HALL.width; dp[i * 3 + 1] = Math.random() * H; dp[i * 3 + 2] = HALL.start + 6 - Math.random() * 80; }
+  dg.setAttribute('position', new THREE.BufferAttribute(dp, 3));
+  const dust = new THREE.Points(dg, new THREE.PointsMaterial({ color: '#ffd9a8', size: .018, transparent: true, opacity: .55, depthWrite: false, blending: THREE.AdditiveBlending }));
+  scene.add(dust);
+
+  // =========================================================
+  // THE GHOST: a real 3D sheet that ripples, sways and follows you
+  // =========================================================
+  const ghost = new THREE.Group();
+  const prof = [[.98, -1], [.92, -.82], [.84, -.58], [.72, -.3], [.62, -.02], [.55, .24], [.52, .46], [.5, .62], [.46, .78], [.38, .92], [.26, 1.02], [.12, 1.08], [.001, 1.1]];
+  const pts = [];
+  for (let i = 0; i < prof.length - 1; i++){
+    for (let k = 0; k < 4; k++){ const t = k / 4; pts.push(new THREE.Vector2(lerp(prof[i][0], prof[i + 1][0], t), lerp(prof[i][1], prof[i + 1][1], t))); }
+  }
+  pts.push(new THREE.Vector2(...prof[prof.length - 1]));
+  const sheetGeo = new THREE.LatheGeometry(pts, 72);
+  const base = sheetGeo.attributes.position.array.slice();
+  const sheetMat = new THREE.MeshStandardMaterial({ color: '#f5f3ef', roughness: .88, side: THREE.DoubleSide, emissive: '#7f9cc4', emissiveIntensity: .16, transparent: true, opacity: .97 });
+  const sheet = new THREE.Mesh(sheetGeo, sheetMat); ghost.add(sheet);
+  const faceTex = loader.load('assets/face.webp', t => { t.encoding = THREE.sRGBEncoding; });
+  const faceGeo = new THREE.PlaneGeometry(.56, .58, 12, 12);
+  { const a = faceGeo.attributes.position; for (let i = 0; i < a.count; i++){ const x = a.getX(i); a.setZ(i, -x * x * .9); } }
+  const faceMat = new THREE.MeshStandardMaterial({ map: faceTex, transparent: true, roughness: .8, depthWrite: false, emissive: '#ffffff', emissiveMap: faceTex, emissiveIntensity: .35 });
+  const face = new THREE.Mesh(faceGeo, faceMat); face.position.set(0, .64, .505); ghost.add(face);
+  const earMat = new THREE.MeshStandardMaterial({ color: '#c88a4c', roughness: .9 });
+  const earIn = new THREE.MeshStandardMaterial({ color: '#f0d2b2', roughness: .9 });
+  [-1, 1].forEach(s => {
+    const ear = new THREE.Mesh(new THREE.ConeGeometry(.1, .26, 3), earMat);
+    ear.position.set(s * .2, 1.08, .06); ear.rotation.set(-.15, 0, -s * .38); ghost.add(ear);
+    const inner = new THREE.Mesh(new THREE.ConeGeometry(.055, .16, 3), earIn); inner.position.set(s * .2, 1.06, .1); inner.rotation.set(-.15, 0, -s * .38); ghost.add(inner);
+  });
+  const aura = new THREE.Sprite(new THREE.SpriteMaterial({ map: blueGlow, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, opacity: .8 }));
+  aura.scale.set(3.4, 3.8, 1); aura.position.set(0, .1, -.3); ghost.add(aura);
+  const ghostLight = new THREE.PointLight('#9fd0ff', 1.1, 4.5, 2); ghostLight.position.set(0, .2, .6); ghost.add(ghostLight);
+  const shadowTex = cvTex(128, 128, (g, w, h) => { const gr = g.createRadialGradient(w / 2, h / 2, 0, w / 2, h / 2, w / 2); gr.addColorStop(0, 'rgba(0,0,0,.6)'); gr.addColorStop(1, 'rgba(0,0,0,0)'); g.fillStyle = gr; g.fillRect(0, 0, w, h); });
+  const shadow = new THREE.Mesh(new THREE.PlaneGeometry(1.8, 1.8), new THREE.MeshBasicMaterial({ map: shadowTex, transparent: true, depthWrite: false }));
+  shadow.rotation.x = -Math.PI / 2; scene.add(shadow);
+  ghost.scale.setScalar(.72);
+  ghost.position.set(0, 1.35, HALL.start - 3);
+  ghost.visible = false;
+  scene.add(ghost);
+
+  Object.assign(W, { ready: true, renderer, scene, camera, paintings, flames, candleLights, mouseLight, doors, leak, leakGlow, outsideLights, dust, ghost, sheet, sheetGeo, base, sheetMat, faceMat, aura, ghostLight, shadow, endMat, endGroup });
+  return true;
+}
+
+/* ---------- Sheet ripple (the cloth) ---------- */
+const gstate = { vx: 0, vz: 0, px: 0, pz: 0, fade: 1, hidden: false };
+function rippleSheet(t){
+  const pos = W.sheetGeo.attributes.position, a = pos.array, b = W.base;
+  const sx = clamp(gstate.vx * 6, -.6, .6), sz = clamp(gstate.vz * 3, -.5, .5);
+  for (let i = 0; i < a.length; i += 3){
+    const x = b[i], y = b[i + 1], z = b[i + 2];
+    const ang = Math.atan2(z, x), r = Math.hypot(x, z);
+    const hem = clamp((.35 - y) / 1.35, 0, 1), hem2 = hem * hem;
+    const wave = hem2 * (.07 * Math.sin(ang * 6 + t * 2.3) + .045 * Math.sin(ang * 11 - t * 3.4)) + (1 - hem) * .012 * Math.sin(ang * 9 + y * 4 + t);
+    const nr = r + wave;
+    a[i] = Math.cos(ang) * nr - sx * hem2 * .55;
+    a[i + 2] = Math.sin(ang) * nr - sz * hem2 * .5;
+    a[i + 1] = y + hem2 * .06 * Math.sin(ang * 5 + t * 2.7) + hem2 * Math.abs(sx) * .12;
+  }
+  pos.needsUpdate = true;
+  W.sheetGeo.computeVertexNormals();
+}
+
+/* ---------- Scroll → camera path ---------- */
+let camZ = HALL.start + 5.5, camTarget = camZ, introCam = true, yaw = 0, pitch = 0;
+const mouse = { x: 0, y: 0 };
+addEventListener('pointermove', e => { mouse.x = e.clientX / innerWidth * 2 - 1; mouse.y = -(e.clientY / innerHeight * 2 - 1); }, { passive: true });
+let endReveal = 0, hallP = 0, sectionTops = { hall: 0, end: 0, join: 0 };
+function measure(){
+  const top = el => el.getBoundingClientRect().top + scrollY;
+  sectionTops = { hall: top($('#hall')), end: top($('#end')), join: top($('#join')) };
+  const hallH = Math.max(900, PORTRAITS.length * innerHeight * .75);
+  $('#hall').style.height = hallH + 'px';
+  sectionTops = { hall: top($('#hall')), end: top($('#end')), join: top($('#join')) };
+}
+function scrollToCam(){
+  const y = scrollY;
+  const endY = sectionTops.end + innerHeight * .15;
+  const p = clamp(y / endY, 0, 1);
+  hallP = clamp((y - sectionTops.hall) / (sectionTops.end - sectionTops.hall), 0, 1);
+  return lerp(0, HALL.camEnd, p);
+}
+
+/* ---------- Render loop ---------- */
+let lastT = 0, loreIdx = -1;
+const lores = $$('#lore p');
+function render(ts){
+  requestAnimationFrame(render);
+  if (!W.ready) return;
+  const t = ts / 1000, dt = Math.min(.05, (ts - lastT) / 1000 || .016); lastT = ts;
+  const { camera, renderer, scene } = W;
+  const K = r => 1 - Math.pow(1 - r, dt * 60);
+  if (!introCam) camTarget = scrollToCam();
+  const prevZ = camZ;
+  camZ = lerp(camZ, camTarget, introCam ? 1 : K(.09));
+  const camV = (camZ - prevZ) / Math.max(dt, .001);
+
+  // look toward the painting you're passing
+  let turn = 0;
+  if (!introCam) W.paintings.forEach(pn => { const d = camZ - pn.z; const w = Math.exp(-Math.pow((d - 2.6) / 1.7, 2)); turn += pn.side * w; });
+  const maxTurn = innerWidth < 760 ? .9 : .5;
+  yaw = lerp(yaw, -turn * maxTurn + (-mouse.x * .12), K(.06));
+  pitch = lerp(pitch, mouse.y * .06, K(.06));
+  const bob = introCam ? 0 : Math.sin(camZ * 1.6) * .025;
+  camera.position.set(Math.sin(t * .3) * .05 + mouse.x * .12, 1.6 + bob, camZ);
+  camera.rotation.set(pitch, yaw, 0, 'YXZ');
+
+  // candle flicker + recycled lights on the nearest flames
+  const ahead = W.flames.filter(f => f.pos.z < camZ + 2.5).sort((a, b) => Math.abs(a.pos.z - camZ + 3) - Math.abs(b.pos.z - camZ + 3));
+  W.candleLights.forEach((l, i) => {
+    const f = ahead[i]; if (!f){ l.intensity = 0; return; }
+    l.position.copy(f.pos); l.position.x *= .9;
+    l.intensity = 1.25 + Math.sin(t * 9 + f.seed) * .12 + Math.sin(t * 23 + f.seed * 2) * .08;
+  });
+  W.flames.forEach(f => { const k = 1 + Math.sin(t * 12 + f.seed) * .08 + Math.sin(t * 29 + f.seed) * .05; f.fl.scale.set(.08 * (2 - k), .16 * k, 1); f.gl.material.opacity = .75 + Math.sin(t * 7 + f.seed) * .12; });
+
+  // cold light that follows the cursor like a torch
+  const md = new THREE.Vector3(mouse.x, mouse.y, .5).unproject(camera).sub(camera.position).normalize();
+  W.mouseLight.position.copy(camera.position).addScaledVector(md, 2.4);
+
+  // the ghost floats ahead of you, always just out of reach
+  const g = W.ghost;
+  if (!introCam){
+    const small = innerWidth < 760;
+    gstate.lead = lerp(gstate.lead || 3.1, (small ? 4.2 : 3.1) + Math.min(1.6, Math.abs(camV) * .06), K(.05));
+    g.scale.setScalar(lerp(g.scale.x, small ? .6 : .72, K(.1)));
+    const nearEndG = camZ < HALL.camEnd + 2.5;
+    const inHero = camZ > -1.5;
+    const tx = nearEndG ? (innerWidth < 760 ? .75 : 1.35) : inHero && innerWidth >= 760 ? 1.15 + Math.sin(t * .45) * .25 : Math.sin(t * .45) * (innerWidth < 760 ? .45 : 1.05) + mouse.x * .35;
+    const tz = Math.max(camZ - gstate.lead, HALL.endWall + 1.4);
+    const nx = lerp(g.position.x, tx, K(.04)), nz = tz;
+    gstate.vx = lerp(gstate.vx, (nx - g.position.x) / Math.max(dt, .001) * .1, K(.1));
+    gstate.vz = lerp(gstate.vz, (nz - g.position.z) / Math.max(dt, .001) * .02, K(.1));
+    g.position.x = nx; g.position.z = nz;
+    g.position.y = (small && inHero ? 1.95 : small ? 1.55 : 1.35) + Math.sin(t * 1.3) * .07;
+    g.rotation.y = lerp(g.rotation.y, clamp(mouse.x * .5 + (camera.position.x - g.position.x) * .4, -.7, .7), .05);
+    g.rotation.z = lerp(g.rotation.z, -gstate.vx * .8, .08);
+  }
+  // it keeps forgetting to render
+  const fadeT = gstate.hidden ? .04 : (.9 + Math.sin(t * .9) * .08);
+  gstate.fade = lerp(gstate.fade, fadeT, K(.06));
+  W.sheetMat.opacity = gstate.fade; W.faceMat.opacity = gstate.fade; W.aura.material.opacity = .8 * gstate.fade;
+  if (g.visible) rippleSheet(t);
+  W.shadow.position.set(g.position.x, .01, g.position.z); W.shadow.material.opacity = .9 * gstate.fade; W.shadow.visible = g.visible;
+
+  // paintings emerge from the dark as you approach
+  W.paintings.forEach((pn, i) => {
+    const d = camZ - pn.z;
+    const target = d > -1 && d < 14 ? clamp(1.1 - Math.abs(d - 3) / 9, .08, 1) : .06;
+    pn.lit = lerp(pn.lit, target, K(.08));
+    pn.mat.color.setScalar(pn.mat.map ? pn.lit : 0);
+    // plaque
+    const pl = plaques[i];
+    const visible = !introCam && camZ < -1.5 && d > .8 && d < 7.5;
+    if (visible){
+      const p = new THREE.Vector3(pn.side * 2.45, .82, pn.z); // just under the frame
+      p.project(camera);
+      if (p.z < 1){
+        const x = (p.x * .5 + .5) * innerWidth, y = (-p.y * .5 + .5) * innerHeight;
+        pl.style.transform = `translate(${clamp(x, 16, innerWidth - pl.offsetWidth - 16)}px,${clamp(y, 80, innerHeight - pl.offsetHeight - 120)}px) translateX(${pn.side < 0 ? 0 : -100}%)`;
+        pl.style.opacity = clamp(Math.min((d - .8) / 1.2, (7.5 - d) / 2), 0, 1).toFixed(3);
+      } else pl.style.opacity = 0;
+    } else pl.style.opacity = 0;
+  });
+
+  // the empty frame shows him only when you lean in
+  const nearEnd = camZ < HALL.camEnd + 3;
+  const lean = nearEnd ? clamp(1 - Math.hypot(mouse.x, mouse.y * 1.2) / .55, 0, 1) : 0;
+  endReveal = lerp(endReveal, coarse && nearEnd ? .55 + Math.sin(t * .8) * .35 : lean, K(.05));
+  W.endMat.opacity = endReveal * .8;
+
+  // dust drifts
+  W.dust.rotation.y = Math.sin(t * .05) * .02;
+  W.dust.position.y = Math.sin(t * .2) * .05;
+
+  // lore lines, one per stretch of the hall
+  if (!introCam){
+    const active = hallP > .02 && hallP < .93 ? Math.min(lores.length - 1, Math.floor(hallP / .93 * lores.length)) : -1;
+    if (active !== loreIdx){ lores.forEach((l, i) => l.classList.toggle('on', i === active)); loreIdx = active; }
+    const m = $('#hallMeter'); m.classList.toggle('on', hallP > .005 && hallP < .995); m.querySelector('i').style.setProperty('--p', (hallP * 100).toFixed(1) + '%');
+  }
+
+  renderer.render(scene, camera);
+}
+
+/* ---------- Click the ghost: he vanishes and reappears somewhere else ---------- */
+addEventListener('click', e => {
+  if (!W.ready || introCam || gstate.hidden) return;
+  if (e.target.closest('a,button')) return;
+  const rc = new THREE.Raycaster(); rc.setFromCamera(new THREE.Vector2(e.clientX / innerWidth * 2 - 1, -(e.clientY / innerHeight * 2 - 1)), W.camera);
+  if (rc.intersectObject(W.sheet).length){
+    gstate.hidden = true; puff(e.clientX, e.clientY);
+    setTimeout(() => { W.ghost.position.x = (Math.random() - .5) * 2; gstate.hidden = false; }, 1400);
+  }
+});
+
+/* ---------- Smooth scroll ---------- */
+let lenis = null;
+if (window.Lenis && !reduce){
+  lenis = new Lenis({ lerp: .08, smoothWheel: true });
+  lenis.stop();
+  if (hasGSAP){ lenis.on('scroll', ScrollTrigger.update); gsap.ticker.add(t => lenis.raf(t * 1000)); gsap.ticker.lagSmoothing(0); }
+  else { const raf = t => { lenis.raf(t); requestAnimationFrame(raf); }; requestAnimationFrame(raf); }
+}
+const toTop = e => { e.preventDefault(); lenis ? lenis.scrollTo(0, { duration: 3.5 }) : scrollTo({ top: 0, behavior: 'smooth' }); };
+$('#toTop').addEventListener('click', toTop);
+$('.brand').addEventListener('click', toTop);
+
+/* ---------- Page animations ---------- */
+function buildScroll(){
+  if (!hasGSAP || reduce) return;
+  gsap.to('#hero > *', { opacity: 0, y: -60, stagger: .03, ease: 'none', scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom 30%', scrub: true } });
+  gsap.fromTo('.end__q, .end__a, .end__hint', { opacity: 0, y: 40, filter: 'blur(12px)' }, { opacity: 1, y: 0, filter: 'blur(0px)', stagger: .12, ease: 'power2.out', scrollTrigger: { trigger: '#end', start: 'top 70%', end: 'top 10%', scrub: .6 } });
+  gsap.fromTo('.join__in > *', { opacity: 0, y: 60 }, { opacity: 1, y: 0, stagger: .1, ease: 'power3.out', scrollTrigger: { trigger: '#join', start: 'top 60%', end: 'top 5%', scrub: .6 } });
+}
+
+/* ---------- Hero entrance ---------- */
+function heroIn(){
+  $('#bar').style.opacity = 1;
+  if (!hasGSAP || reduce) return;
+  gsap.timeline()
+    .fromTo('.hero__tick', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 1, ease: 'expo.out' }, 0)
+    .fromTo(chars, { opacity: 0, filter: 'blur(20px)', y: 30 }, { opacity: 1, filter: 'blur(0px)', y: 0, duration: 1.6, stagger: { each: .06, from: 'random' }, ease: 'expo.out' }, .1)
+    .to('.title__ghost', { autoAlpha: 1, duration: 1 }, 1.2)
+    .fromTo('.hero__lede, .hero__acts, .hero__cue', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 1.2, stagger: .12, ease: 'expo.out' }, .7)
+    .fromTo('#bar', { opacity: 0 }, { opacity: 1, duration: 1 }, .8);
+  setTimeout(glitchLoop, 2600);
+}
+
+/* ---------- Intro: the doors ---------- */
+const gate = $('#gate');
+let entered = false, knocks = 0, autoT = null;
+function knock(){
+  if (entered || !W.ready) return;
+  knocks++;
+  $$('#knocks i').forEach((k, i) => k.classList.toggle('on', i < knocks));
+  if (hasGSAP){
+    W.doors.forEach((d, i) => gsap.fromTo(d.rotation, { y: 0 }, { y: (i ? -1 : 1) * .025, duration: .06, yoyo: true, repeat: 3, ease: 'power1.inOut' }));
+    gsap.fromTo(W.camera.position, { y: 1.6 }, { y: 1.63, duration: .05, yoyo: true, repeat: 3 });
+    gsap.fromTo(W.leakGlow.material, { opacity: 1 }, { opacity: .7, duration: .6 });
+  }
+  if (knocks >= 3) setTimeout(() => openDoors(false), 380);
+  else { clearTimeout(autoT); autoT = setTimeout(autoKnock, 1300); }
+}
+function autoKnock(){ if (!entered) knock(); }
+function openDoors(fast){
+  if (entered) return; entered = true;
+  clearTimeout(autoT);
+  document.body.classList.remove('is-locked'); scrollTo(0, 0);
+  const done = () => { gate.remove(); introCam = false; if (W.ready) W.outsideLights.forEach(l => W.scene.remove(l)); measure(); if (lenis) lenis.start(); if (hasGSAP) ScrollTrigger.refresh(); };
+  if (!hasGSAP || reduce || !W.ready){
+    if (W.ready){ W.doors[0].rotation.y = 1.8; W.doors[1].rotation.y = -1.8; W.ghost.visible = true; W.ghost.position.set(0, 1.35, -3); camZ = camTarget = 0; }
+    done(); heroIn(); return;
+  }
+  gate.classList.add('is-gone');
+  const cam = { z: camZ };
+  W.ghost.visible = true; W.ghost.position.set(0, 1.35, HALL.start - 1.2); gstate.fade = 0;
+  gsap.timeline({ onComplete: done })
+    .to(['#gateQ', '#gateSub', '#knocks', '#skip'], { opacity: 0, duration: .4 }, 0)
+    .to(W.doors[0].rotation, { y: 1.85, duration: fast ? 1.1 : 2, ease: 'power2.inOut' }, 0)
+    .to(W.doors[1].rotation, { y: -1.85, duration: fast ? 1.1 : 2, ease: 'power2.inOut' }, .05)
+    .to(W.leak.material, { opacity: 0, duration: .5, onStart(){ W.leak.material.transparent = true; } }, .2)
+    .to('#gateFlash', { opacity: .75, duration: .5, ease: 'power2.in' }, fast ? .2 : .5)
+    .to('#gateFlash', { opacity: 0, duration: 1.2, ease: 'power2.out' }, fast ? .7 : 1.0)
+    .to(cam, { z: 0, duration: fast ? 1.6 : 2.8, ease: 'power3.inOut', onUpdate: () => { camZ = camTarget = cam.z; } }, fast ? .2 : .6)
+    .to(W.ghost.position, { z: -3, duration: fast ? 1.6 : 2.6, ease: 'power2.inOut' }, fast ? .3 : .9)
+    .add(heroIn, fast ? 1.1 : 2.2);
+}
+function intro(){
+  const ok = buildWorld();
+  requestAnimationFrame(render);
+  if (!ok || reduce || !hasGSAP){
+    $('#gateLoad').remove();
+    openDoors(true);
+    if (!ok){ $('#stage').style.display = 'block'; }
+    return;
+  }
+  gsap.set('#bar', { opacity: 0 });
+  gsap.set(['.hero__tick', '.hero__lede', '.hero__acts', '.hero__cue'], { opacity: 0 });
+  gsap.set(chars, { opacity: 0 }); gsap.set('.title__ghost', { autoAlpha: 0 });
+  // candles light one by one, then the words
+  W.outsideLights.forEach((l, i) => gsap.to(l, { intensity: 1.6, duration: .6, delay: .5 + i * .45, ease: 'power2.out' }));
+  gsap.timeline()
+    .to('#gateLoad', { opacity: 0, duration: .4 }, .2)
+    .to('#gateBlack', { opacity: 0, duration: 2, ease: 'power2.inOut' }, .3)
+    .fromTo('#gateQ', { opacity: 0, y: 20, filter: 'blur(10px)' }, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.4, ease: 'expo.out' }, 1.6)
+    .to('#gateSub, #knocks', { opacity: 1, duration: .8 }, 2.2)
+    .add(() => { autoT = setTimeout(autoKnock, 2600); }, 2.2);
+}
+gate.addEventListener('click', e => { if (e.target.id === 'skip') return; knock(); });
+$('#skip').addEventListener('click', e => { e.stopPropagation(); openDoors(true); });
+addEventListener('keydown', e => { if (entered) return; if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); knock(); } if (e.key === 'Escape') openDoors(true); });
+
+/* ---------- Boot ---------- */
+buildScroll();
+intro();
+addEventListener('load', () => { measure(); hasGSAP && ScrollTrigger.refresh(); });
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { measure(); hasGSAP && ScrollTrigger.refresh(); });
+let rT; addEventListener('resize', () => { clearTimeout(rT); rT = setTimeout(() => {
+  if (W.ready){ W.renderer.setSize(innerWidth, innerHeight, false); W.camera.aspect = innerWidth / innerHeight; W.camera.fov = innerWidth < 760 ? 70 : 58; W.camera.updateProjectionMatrix(); }
+  measure(); hasGSAP && ScrollTrigger.refresh();
+}, 150); });
+</script>
+</body>
+</html>
